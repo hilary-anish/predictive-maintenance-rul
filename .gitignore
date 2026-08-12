@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+mlruns/
+mlartifacts/
+*.pt
+*.joblib
+.env
+.ipynb_checkpoints/

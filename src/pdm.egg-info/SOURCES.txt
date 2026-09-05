@@ -1,6 +1,0 @@
-pyproject.toml
-src/pdm/__init__.py
-src/pdm.egg-info/PKG-INFO
-src/pdm.egg-info/SOURCES.txt
-src/pdm.egg-info/dependency_links.txt
-src/pdm.egg-info/top_level.txt

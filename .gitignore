@@ -1,12 +1,40 @@
+# Python
 .venv/
 __pycache__/
 *.pyc
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Data (too large for git)
 data/raw/*
 data/processed/*
 !data/raw/.gitkeep
-mlruns/
-mlartifacts/
+!data/processed/.gitkeep
+*.npz
 *.pt
 *.joblib
-.env
+*.pkl
+
+# MLflow
+mlruns/
+mlartifacts/
+mlflow.db
+
+# IDE
+.vscode/
+.idea/
+
+# Notebooks
 .ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+
+# Docker
+*.log

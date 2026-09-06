@@ -1,0 +1,34 @@
+# Virtual environment (container has its own Python)
+.venv/
+
+# Git (not needed in the image)
+.git/
+.gitignore
+
+# Data files (mounted as volumes, not baked into image)
+data/raw/*
+data/processed/*
+mlruns/
+mlartifacts/
+mlflow.db
+
+# Python cache
+__pycache__/
+*.pyc
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+
+# Notebooks (not needed for serving)
+notebooks/
+
+# Docker (don't copy Docker files into Docker)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# OS
+.DS_Store
+Thumbs.db

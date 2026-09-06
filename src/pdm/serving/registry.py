@@ -153,7 +153,7 @@ def load_production_model(model_name: str = "rul-lstm"):
 
             # Load the model via MLflow
             model_uri = f"models:/{model_name}/{v.version}"
-            model = mlflow.pytorch.load_model(model_uri)
+            model = mlflow.pytorch.load_model(model_uri, map_location=DEVICE)
             model = model.to(DEVICE)
             model.eval()
 
@@ -177,7 +177,7 @@ def load_production_model(model_name: str = "rul-lstm"):
         model = RULLSTM(n_features=n_features)
         state_path = PROC / "lstm.pt"
 
-    model.load_state_dict(torch.load(state_path, weights_only=True))
+    model.load_state_dict(torch.load(state_path, weights_only=True, map_location=DEVICE))
     model = model.to(DEVICE)
     model.eval()
 

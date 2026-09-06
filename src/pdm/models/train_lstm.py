@@ -21,7 +21,7 @@ def main(subset="FD001", epochs=40, bs=256, lr=1e-3):
     mlflow.set_experiment("rul-cmapss")
 
     with mlflow.start_run(run_name="lstm"):
-        mlflow.log_params(dict(epochs=epochs, bs=bs, lr=lr, seq_len=Xtr.shape[1]))
+        mlflow.log_params(dict(model="LSTM", epochs=epochs, bs=bs, lr=lr, seq_len=Xtr.shape[1]))
         for ep in range(epochs):
             model.train()
             for xb, yb in dl:

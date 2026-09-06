@@ -1,0 +1,38 @@
+# Kubernetes CronJob: runs the retraining pipeline nightly at 02:00.
+#
+# Why a CronJob instead of a long-running service?
+# - Retraining is a batch task, not a continuous service
+# - CronJob runs, completes, releases resources
+# - No wasted compute between retraining runs
+# - Kubernetes handles scheduling, retries, and history
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rul-retrain
+spec:
+  schedule: "0 2 * * *"    # nightly at 02:00 UTC
+  concurrencyPolicy: Forbid # don't start a new job if previous still running
+  successfulJobsHistoryLimit: 5
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: retrain
+              image: ghcr.io/hilary-anish/rul-api:latest
+              command: ["python", "-m", "pdm.pipeline.retrain"]
+              envFrom:
+                - configMapRef:
+                    name: rul-config
+              env:
+                - name: MLFLOW_ALLOW_FILE_STORE
+                  value: "true"
+              resources:
+                requests:
+                  memory: "512Mi"
+                  cpu: "500m"
+                limits:
+                  memory: "1Gi"
+                  cpu: "1000m"

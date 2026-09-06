@@ -1,0 +1,15 @@
+# Service: stable network endpoint for your API pods.
+# Why? Pods are ephemeral — they get new IPs when restarted.
+# The Service gives a stable address that routes to
+# whichever pods are currently healthy.
+apiVersion: v1
+kind: Service
+metadata:
+  name: rul-api
+spec:
+  selector:
+    app: rul-api    # routes to pods with this label
+  ports:
+    - port: 80            # Service listens on port 80
+      targetPort: 8000    # forwards to container port 8000
+  type: ClusterIP         # internal only (Ingress handles external)

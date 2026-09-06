@@ -279,7 +279,7 @@ A Streamlit KPI dashboard designed for non-technical stakeholders (maintenance m
 
 **Retrain History** — Timeline of all automated retraining decisions with expandable details showing champion vs challenger metrics, drift ratios, and promotion reasoning.
 
-The dashboard works in two modes: local (reads model files directly, no API needed) and API mode (calls FastAPI endpoints). Local mode enables deployment on Hugging Face Spaces for a live recruiter demo without infrastructure.
+The dashboard works in two modes: local (reads model files directly, no API needed) and API mode (calls FastAPI endpoints). Local mode enables deployment on Hugging Face Spaces as a live demo without infrastructure.
 
 ---
 

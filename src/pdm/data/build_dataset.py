@@ -1,16 +1,18 @@
 # src/pdm/data/build_dataset.py
 import numpy as np
+
 from pdm.config import PROC
-from pdm.data.load import load_raw
 from pdm.data.labels import add_rul_train, make_test_targets
-from pdm.data.preprocess import fit_scaler, apply_scaler
-from pdm.data.windows import make_windows, last_window_per_unit
+from pdm.data.load import load_raw
+from pdm.data.preprocess import apply_scaler, fit_scaler
 from pdm.data.validate import validate_raw
+from pdm.data.windows import last_window_per_unit, make_windows
 
 
 def main(subset="FD001"):
     train, test, rul = load_raw(subset)
-    validate_raw(train); validate_raw(test)
+    validate_raw(train)
+    validate_raw(test)
     train = add_rul_train(train)
     scaler = fit_scaler(train)
     train_s = apply_scaler(train, scaler)

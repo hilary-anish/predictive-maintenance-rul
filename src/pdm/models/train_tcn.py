@@ -14,14 +14,15 @@ Key differences from LSTM training:
   as fast due to the fixed receptive field)
 - Early stopping via best-model checkpointing
 """
-import numpy as np
-import torch
 import mlflow
 import mlflow.pytorch
-from torch.utils.data import TensorDataset, DataLoader
-from pdm.config import PROC, FEATURE_SENSORS, RANDOM_STATE, DEVICE
+import numpy as np
+import torch
+from torch.utils.data import DataLoader, TensorDataset
+
+from pdm.config import DEVICE, PROC, RANDOM_STATE
+from pdm.evaluate.metrics import mae, phm_score, rmse
 from pdm.models.tcn import RULTCN
-from pdm.evaluate.metrics import rmse, mae, phm_score
 
 
 def main(subset: str = "FD001", epochs: int = 80, bs: int = 256, lr: float = 1e-3):

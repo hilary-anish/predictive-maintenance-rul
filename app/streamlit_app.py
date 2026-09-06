@@ -19,11 +19,11 @@ Why Plotly for charts?
 import json
 from pathlib import Path
 
-import streamlit as st
 import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import streamlit as st
 
 # ── Page config ────────────────────────────────────────────────────
 # Must be the first Streamlit command in the script.
@@ -75,11 +75,11 @@ def load_fleet_data():
             st.warning(f"API error: {e}. Falling back to local data.")
 
     # Local mode: load from processed data and run model
-    import torch
-    from pdm.config import PROC, DEVICE, FEATURE_SENSORS
-    from pdm.models.lstm import RULLSTM
-    from pdm.models.conformal import ConformalPredictor
     import joblib
+    import torch
+
+    from pdm.config import DEVICE, FEATURE_SENSORS, PROC
+    from pdm.models.lstm import RULLSTM
 
     data_path = PROC / "FD001.npz"
     if not data_path.exists():

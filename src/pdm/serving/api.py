@@ -21,13 +21,15 @@ import numpy as np
 import torch
 from fastapi import FastAPI, HTTPException
 
-from pdm.config import DEVICE, PROC, FEATURE_SENSORS
-from pdm.models.conformal import ConformalPredictor
+from pdm.config import DEVICE, FEATURE_SENSORS, PROC
 from pdm.serving.schemas import (
-    PredictRequest, PredictResponse,
-    FleetResponse, FleetKPIs,
-    AlertResponse, Alert,
+    Alert,
+    AlertResponse,
+    FleetKPIs,
+    FleetResponse,
     HealthResponse,
+    PredictRequest,
+    PredictResponse,
 )
 
 logger = logging.getLogger(__name__)

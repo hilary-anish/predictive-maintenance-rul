@@ -8,9 +8,10 @@ edge cases, nothing downstream works.
 Uses FastAPI's TestClient which simulates HTTP requests
 without actually starting a server — fast and reliable.
 """
+from unittest.mock import MagicMock
+
 import numpy as np
 import pytest
-from unittest.mock import patch, MagicMock
 from fastapi.testclient import TestClient
 
 
@@ -44,7 +45,7 @@ def client():
     })
 
     # Patch the startup to inject mocks
-    from pdm.serving.api import app, STATE
+    from pdm.serving.api import STATE, app
     STATE["model"] = mock_model
     STATE["model_info"] = {
         "name": "rul-lstm",

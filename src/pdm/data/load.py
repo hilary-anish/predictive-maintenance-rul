@@ -1,5 +1,6 @@
 import pandas as pd
-from pdm.config import RAW, ALL_COLS
+
+from pdm.config import ALL_COLS, RAW
 
 
 def load_raw(subset: str = "FD001") -> tuple[pd.DataFrame, pd.DataFrame, pd.Series]:

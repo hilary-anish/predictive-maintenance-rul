@@ -1,6 +1,7 @@
 import joblib
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
+
 from pdm.config import FEATURE_SENSORS, PROC
 
 

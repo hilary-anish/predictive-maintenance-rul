@@ -1,4 +1,5 @@
 import pandas as pd
+
 from pdm.config import RUL_CLIP
 
 
@@ -9,7 +10,9 @@ def add_rul_train(df: pd.DataFrame, clip: int = RUL_CLIP) -> pd.DataFrame:
     return df
 
 
-def make_test_targets(test: pd.DataFrame, rul_true: pd.Series, clip: int = RUL_CLIP) -> pd.DataFrame:
+def make_test_targets(
+    test: pd.DataFrame, rul_true: pd.Series, clip: int = RUL_CLIP,
+) -> pd.DataFrame:
     """RUL at each test unit's LAST cycle = provided RUL (clipped)."""
     last = test.groupby("unit")["cycle"].transform("max") == test["cycle"]
     out = test[last].copy().reset_index(drop=True)

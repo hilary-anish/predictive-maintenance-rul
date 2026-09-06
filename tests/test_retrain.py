@@ -5,8 +5,9 @@ Why test the pipeline? The retrain pipeline makes critical decisions:
 promote or keep. Wrong logic = deploying bad models or missing
 improvements. These tests verify the decision logic in isolation.
 """
-from unittest.mock import patch, MagicMock
-from pdm.pipeline.retrain import compare_and_promote, RMSE_IMPROVEMENT_MIN
+from unittest.mock import MagicMock, patch
+
+from pdm.pipeline.retrain import compare_and_promote
 
 
 @patch("pdm.pipeline.retrain.MlflowClient")

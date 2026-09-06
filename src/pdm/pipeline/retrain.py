@@ -23,18 +23,14 @@ Why champion/challenger instead of just deploying the new model?
 import json
 import logging
 from datetime import datetime
-from pathlib import Path
 
-import numpy as np
-import torch
 import mlflow
+import numpy as np
 from mlflow.tracking import MlflowClient
 
-from pdm.config import PROC, FEATURE_SENSORS, RANDOM_STATE, DEVICE
-from pdm.models.lstm import RULLSTM
+from pdm.config import PROC
 from pdm.models.train_lstm import main as train_lstm
 from pdm.monitoring.drift import run_drift_check, simulate_drift
-from pdm.evaluate.metrics import rmse, mae, phm_score
 
 logger = logging.getLogger(__name__)
 

@@ -15,8 +15,9 @@ MLflow model stages:
 - "Archived"   → previous production model, kept for audit trail
 """
 import logging
-import torch
+
 import mlflow
+import torch
 from mlflow.tracking import MlflowClient
 
 from pdm.config import DEVICE, FEATURE_SENSORS, PROC

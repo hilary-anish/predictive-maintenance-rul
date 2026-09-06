@@ -6,7 +6,8 @@ model comparison is invalid. These are the numbers that go in your
 README and CV — they must be correct.
 """
 import numpy as np
-from pdm.evaluate.metrics import rmse, mae, phm_score
+
+from pdm.evaluate.metrics import mae, phm_score, rmse
 
 
 def test_rmse_perfect():

@@ -1,7 +1,7 @@
 import pandera as pa
-from pandera import Column, Check
-from pdm.config import SENSOR_COLS
+from pandera import Check, Column
 
+from pdm.config import SENSOR_COLS
 
 raw_schema = pa.DataFrameSchema(
     {

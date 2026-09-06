@@ -1,17 +1,19 @@
-import numpy as np
-import torch
 import mlflow
 import mlflow.pytorch
-from torch.utils.data import TensorDataset, DataLoader
-from pdm.config import PROC, FEATURE_SENSORS, RANDOM_STATE
+import numpy as np
+import torch
+from torch.utils.data import DataLoader, TensorDataset
+
+from pdm.config import FEATURE_SENSORS, PROC, RANDOM_STATE
+from pdm.evaluate.metrics import mae, phm_score, rmse
 from pdm.models.lstm import RULLSTM
-from pdm.evaluate.metrics import rmse, mae, phm_score
 
 
 def main(subset="FD001", epochs=40, bs=256, lr=1e-3):
     torch.manual_seed(RANDOM_STATE)
     d = np.load(PROC / f"{subset}.npz")
-    Xtr, ytr, Xte, yte = (torch.tensor(d[k], dtype=torch.float32) for k in ("Xtr", "ytr", "Xte", "yte"))
+    keys = ("Xtr", "ytr", "Xte", "yte")
+    Xtr, ytr, Xte, yte = (torch.tensor(d[k], dtype=torch.float32) for k in keys)
     dev = "cuda" if torch.cuda.is_available() else "cpu"
     dl = DataLoader(TensorDataset(Xtr, ytr), batch_size=bs, shuffle=True)
     model = RULLSTM(len(FEATURE_SENSORS)).to(dev)
@@ -26,7 +28,9 @@ def main(subset="FD001", epochs=40, bs=256, lr=1e-3):
             model.train()
             for xb, yb in dl:
                 xb, yb = xb.to(dev), yb.to(dev)
-                opt.zero_grad(); loss = loss_fn(model(xb), yb); loss.backward()
+                opt.zero_grad()
+                loss = loss_fn(model(xb), yb)
+                loss.backward()
                 opt.step()
         model.eval()
         with torch.no_grad():

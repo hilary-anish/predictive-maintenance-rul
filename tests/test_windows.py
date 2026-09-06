@@ -7,8 +7,9 @@ Shape mismatches are the #1 bug in sequence model pipelines.
 """
 import numpy as np
 import pandas as pd
-from pdm.data.windows import make_windows, last_window_per_unit
+
 from pdm.config import FEATURE_SENSORS
+from pdm.data.windows import last_window_per_unit, make_windows
 
 
 def _make_dummy_df(n_units=2, cycles_per_unit=50):

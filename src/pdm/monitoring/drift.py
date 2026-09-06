@@ -17,7 +17,6 @@ Evidently auto-selects the statistical test based on sample sizes:
     - Small datasets (<1000): Kolmogorov-Smirnov test (p-value < 0.05 = drift)
     - Large datasets (>=1000): Wasserstein distance (distance > 0.1 = drift)
 """
-import json
 import logging
 from datetime import datetime
 from pathlib import Path
@@ -27,7 +26,7 @@ import pandas as pd
 from evidently import Report
 from evidently.presets import DataDriftPreset
 
-from pdm.config import PROC, FEATURE_SENSORS
+from pdm.config import FEATURE_SENSORS, PROC
 
 logger = logging.getLogger(__name__)
 
@@ -231,7 +230,7 @@ if __name__ == "__main__":
     print(f"Features drifted: {result['n_drifted_features']}/{result['total_features']}")
     print(f"Drift ratio: {result['drift_ratio']:.1%}")
 
-    print(f"\nPer-feature results:")
+    print("\nPer-feature results:")
     print(f"{'Feature':25s} {'Drifted':>8s} {'Score':>10s} {'Method'}")
     print("-" * 75)
     for f in result["features"]:

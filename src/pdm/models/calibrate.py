@@ -14,13 +14,14 @@ Why 50/50 split?
 - 50/50 is the standard split in conformal prediction literature
 - With 100 test units in FD001, that's 50 cal + 50 eval
 """
+import joblib
+import mlflow
 import numpy as np
 import torch
-import mlflow
-import joblib
-from pdm.config import PROC, FEATURE_SENSORS, RANDOM_STATE, DEVICE
-from pdm.models.lstm import RULLSTM
+
+from pdm.config import DEVICE, FEATURE_SENSORS, PROC, RANDOM_STATE
 from pdm.models.conformal import ConformalPredictor
+from pdm.models.lstm import RULLSTM
 
 
 def main(subset: str = "FD001", alpha: float = 0.10):
@@ -74,7 +75,7 @@ def main(subset: str = "FD001", alpha: float = 0.10):
     full_covered = (yte >= full_intervals["lower"]) & (yte <= full_intervals["upper"])
     full_coverage = float(full_covered.mean())
 
-    print(f"\n--- Full Test Set ---")
+    print("\n--- Full Test Set ---")
     print(f"Coverage (all {n} units): {full_coverage:.0%}")
     print(f"Mean interval width:      {full_intervals['width'].mean():.1f} cycles")
 
@@ -101,7 +102,7 @@ def main(subset: str = "FD001", alpha: float = 0.10):
         mlflow.log_artifact(str(PROC / "conformal.joblib"))
 
     # --- Print example predictions ---
-    print(f"\n--- Example Predictions (first 5 units) ---")
+    print("\n--- Example Predictions (first 5 units) ---")
     print(f"{'Unit':>6s} {'True':>8s} {'Pred':>8s} {'Lower':>8s} {'Upper':>8s} {'Covered':>8s}")
     print("-" * 52)
     for i in range(min(5, n)):

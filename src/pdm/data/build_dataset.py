@@ -2,7 +2,7 @@
 import numpy as np
 from pdm.config import PROC
 from pdm.data.load import load_raw
-from pdm.data.labels import add_rul_train, test_targets
+from pdm.data.labels import add_rul_train, make_test_targets
 from pdm.data.preprocess import fit_scaler, apply_scaler
 from pdm.data.windows import make_windows, last_window_per_unit
 from pdm.data.validate import validate_raw
@@ -17,7 +17,7 @@ def main(subset="FD001"):
     test_s  = apply_scaler(test,  scaler)
     Xtr, ytr = make_windows(train_s)
     Xte, units = last_window_per_unit(test_s)
-    yte = test_targets(test, rul)["RUL"].to_numpy(dtype="float32")
+    yte = make_test_targets(test, rul)["RUL"].to_numpy(dtype="float32")
     np.savez_compressed(PROC / f"{subset}.npz", Xtr=Xtr, ytr=ytr, Xte=Xte, yte=yte)
     print("saved", PROC / f"{subset}.npz", Xtr.shape, Xte.shape)
 

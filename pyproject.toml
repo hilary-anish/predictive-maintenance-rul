@@ -49,3 +49,5 @@ select = ["E", "F", "I", "W"]
 [tool.pytest.ini_options]
 addopts = "-q --tb=short"
 testpaths = ["tests"]
+norecursedirs = ["src", ".venv", "data", "mlruns", "mlartifacts"]
+

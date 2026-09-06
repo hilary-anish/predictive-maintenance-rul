@@ -123,7 +123,7 @@ Three architectures are benchmarked on the same data split with the same evaluat
 
 ### Temporal CNN (TCN)
 
-**Why TCN alongside LSTM?** Multiple job descriptions mentioned "Temporal CNN" alongside LSTM as a desired skill. Having both demonstrates understanding of the tradeoffs between recurrent and convolutional sequence modeling:
+**Why TCN alongside LSTM?** To Understand the tradeoffs between recurrent and convolutional sequence modeling:
 
 | Aspect | LSTM | TCN |
 |--------|------|-----|
@@ -150,7 +150,7 @@ LSTM outperforms both alternatives on all three metrics. The XGBoost baseline ju
 
 ## Uncertainty Quantification
 
-Most ML projects output a single number: "RUL = 65 cycles." This is useless for a maintenance planner. They need: "RUL is between 42 and 88 cycles with 90% confidence." That interval drives the scheduling decision.
+If the pipeline output a single number: "RUL = 65 cycles." This is useless for a maintenance planner. They need: "RUL is between 42 and 88 cycles with 90% confidence." That interval drives the scheduling decision.
 
 ### Why Conformal Prediction?
 
@@ -217,12 +217,11 @@ FastAPI serves predictions over HTTP with three endpoints:
 | `/predict/fleet` | GET | All units with fleet-level KPIs (critical/warning/healthy counts) |
 | `/alerts` | GET | Units below a configurable RUL threshold, sorted by urgency |
 
-**Why FastAPI over Flask?** FastAPI generates interactive OpenAPI documentation automatically at `/docs`, validates request/response schemas via Pydantic, supports async request handling, and has better performance benchmarks. The auto-generated docs mean reviewers can test the API directly from their browser.
+**Why FastAPI over Flask?** FastAPI generates interactive OpenAPI documentation automatically at `/docs`, validates request/response schemas via Pydantic, supports async request handling, and has better performance benchmarks.
 
 **Design decisions:**
 - Model is loaded once at startup (not per-request) — inference takes milliseconds, loading takes seconds
 - Conformal intervals are attached to every prediction — the API never returns a point estimate without uncertainty
-- The `/alerts` endpoint mimics what a PagerDuty/Slack integration would consume in production
 
 ---
 
@@ -236,7 +235,7 @@ The drift monitor compares a reference dataset (training data) against current p
 
 Each 3D input window (30 timesteps × 14 sensors) is summarized into 42 features: mean, standard deviation, and last value per sensor. Drift is evaluated per feature. Dataset-level drift is flagged when >50% of features show statistically significant distribution shifts.
 
-**Why Evidently?** It's the leading open-source ML monitoring library, generates visual HTML reports for non-technical stakeholders, and provides structured JSON output for programmatic consumption by the retraining pipeline.
+**Why Evidently?** It's the leading open-source ML monitoring library, generates visual HTML reports for non-technical person, and provides structured JSON output for programmatic consumption by the retraining pipeline.
 
 The drift monitor runs as a standalone script and also integrates with the automated retraining pipeline. Drift results and HTML reports are saved for audit and stakeholder review.
 
@@ -295,7 +294,6 @@ The dashboard works in two modes: local (reads model files directly, no API need
 | `test_api.py` | Health endpoint, valid prediction response, input shape rejection |
 | `test_retrain.py` | Promote on no champion, promote on improvement, keep on insufficient improvement |
 
-API tests use FastAPI's `TestClient` with mocked models — no GPU, no data files, runs in milliseconds. Pipeline tests verify decision logic in isolation using `unittest.mock`.
 
 ### GitHub Actions CI
 
@@ -376,7 +374,6 @@ Local development uses k3d, which runs a lightweight Kubernetes cluster inside D
 ```
 predictive-maintenance-rul/
 ├── README.md                        # This file
-├── MODEL_CARD.md                    # Standalone model card (subset of this README)
 ├── pyproject.toml                   # Dependencies, build config, tool settings
 ├── Dockerfile                       # Multi-stage build for the API container
 ├── docker-compose.yml               # Service orchestration with volume mounts
@@ -415,7 +412,7 @@ predictive-maintenance-rul/
 │   ├── pipeline/
 │   │   └── retrain.py               # Automated retraining (drift → retrain → compare → promote)
 │   └── serving/
-│       ├── api.py                   # FastAPI server (predict, fleet, alerts, health)
+│       ├── api.py                   # FastAPI server
 │       ├── schemas.py               # Pydantic request/response models
 │       └── registry.py              # MLflow model registry helpers
 │

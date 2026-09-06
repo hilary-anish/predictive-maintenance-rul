@@ -1,0 +1,35 @@
+# CI pipeline: runs on every push to main and every pull request.
+# 
+# Why CI?
+# - Catches bugs before they reach main branch
+# - Ensures code style consistency (ruff)
+# - Proves tests pass in a clean environment
+# - The green badge on your README signals code quality
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the code
+      - uses: actions/checkout@v4
+
+      # Install uv (fast Python package manager)
+      - uses: astral-sh/setup-uv@v2
+
+      # Create venv and install dependencies
+      - run: uv venv --python 3.11
+      - run: uv pip install -e ".[dev]"
+
+      # Lint: catch style issues and import errors
+      - run: uv run ruff check .
+
+      # Test: run all tests with coverage
+      - run: uv run pytest tests/ -v --tb=short
+        env:
+          MLFLOW_ALLOW_FILE_STORE: "true"
